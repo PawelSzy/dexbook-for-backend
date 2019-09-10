@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import BooksList from './Components/BooksList/BookList';
+
+class App extends Component {
+  render() {
+    const booksList = [
+      {title: "title", author: "author", id: 1, price: "1$", score: 1000, rating: 4, image: "book_image" },
+      {title: "title", author: "author", id: 2, price: "1$", score: 1000, rating: 4, image: "book_image" },
+      {title: "title", author: "author", id: 3, price: "1$", score: 1000, rating: 4, image: "book_image" },
+      {title: "title", author: "author", id: 4, price: "1$", score: 1000, rating: 4, image: "book_image" },
+      {title: "title", author: "author", id: 5, price: "1$", score: 1000, rating: 4, image: "book_image" },
+      {title: "title", author: "author", id: 6, price: "1$", score: 1000, rating: 4, image: "book_image" },
+    ]
+    return (
+      <div className="App">
+        <BooksList books={booksList}/>
+      </div>
+    );
+  }
 }
 
 export default App;
