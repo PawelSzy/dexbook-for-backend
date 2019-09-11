@@ -1,6 +1,8 @@
 import React from 'react'
 import './Book.scss'
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import * as actions from '../../../State/book';
 
 const book = (props) => (
   <div className="book row border-top border-bottom">
@@ -19,11 +21,18 @@ const book = (props) => (
     </div>
 
     <div className="col-md-4 my-auto">
-      <Button variant="primary" size="sm">
+      <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
        Want to read
       </Button>
     </div>
   </div>
 )
 
-export default book
+const mapDispatchToProps = dispatch => {
+  return {
+    readLater: (bookId) => dispatch( actions.readLaterBook(bookId))
+  };
+};
+
+
+export default connect(null, mapDispatchToProps)(book)
