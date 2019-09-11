@@ -8,7 +8,7 @@ const book = (props) => (
     <div className="book__price">price: {props.price}</div>
     <div className="book__score">score: {props.score}</div>
     <div className="book__rating">rating: {props.rating}</div>
-    <div className="book__image">image: {props.image}</div>
+    <img className="book__image" src={props.image} alt="book cover {props.title}" />
   </div>
 )
 
