@@ -47,7 +47,7 @@ const book = (props) => {
           }
         </div>
         <div className="book__mark-to-read book__rating">
-          <div className="book__mark-to-read__text text-secondary">Rate this book</div>
+          <div className="book__mark-to-read__text text-secondary mt-1">Rate this book</div>
           <Rater rating={props.rating} total={5} />
         </div>
       </div>
