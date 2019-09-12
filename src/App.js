@@ -16,7 +16,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className="container">
-          <BooksList books={this.props.books}/>
+          <div className="col-lg-8">
+            <BooksList books={this.props.books}/>
+          </div>
         </div>
       </div>
     );

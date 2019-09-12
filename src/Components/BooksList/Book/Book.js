@@ -27,7 +27,7 @@ const book = (props) => {
         <div className="book__author">{props.author}</div>
 
         <div className="book__rating"><Rater rating={props.rating} total={5} interactive={false} /></div>
-        <div className="row col-md-4 col-xl-2 pl-0 book__smaller-text mx-auto mx-md-0">
+        <div className="row col-md-6 pl-0 book__smaller-text mx-auto mx-md-0">
           <div className="book__price col-md-6 px-0">price: {props.price}</div>
           <div className="book__score col-md-6">score: {props.score}</div>
         </div>
