@@ -15,8 +15,9 @@ library.add(faCheck)
 
 const book = (props) => {
   const isBookMarkedToRead = props.readedBooks.includes(props.id)
+  const yourBookRating = props.id in props.booksRating ? props.booksRating[props.id] : 0
   return (
-    <div className="book row border-top border-bottom">
+    <div className="book row border-top">
       <div className="col-md-2 my-1">
         <img className="book__image img-fluid" src={props.image} alt="book cover {props.title}" />
       </div>
@@ -42,13 +43,16 @@ const book = (props) => {
               </Button>
               :
               <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
-                <FontAwesomeIcon icon={faCheck} /> Want to read
+                <FontAwesomeIcon icon={faCheck} />
+
+                Want to read
               </Button>
           }
         </div>
+
         <div className="book__mark-to-read book__rating">
           <div className="book__mark-to-read__text text-secondary mt-1">Rate this book</div>
-          <Rater rating={props.rating} total={5} />
+          <Rater rating={Math.round(yourBookRating)} total={5} onRate={(rating) => props.rateBook(rating, props.id)} />
         </div>
       </div>
     </div>
@@ -57,16 +61,17 @@ const book = (props) => {
 
 const mapStateToProps = state => {
   return {
-    readedBooks: state.book.wantToRead
+    readedBooks: state.book.wantToRead,
+    booksRating: state.book.yourBooksRating,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     readLater: (bookId) => dispatch( actions.readLaterBook(bookId)),
-    deleteFromReadLater: bookId => dispatch(actions.removeReadLaterBook(bookId))
+    deleteFromReadLater: bookId => dispatch(actions.removeReadLaterBook(bookId)),
+    rateBook: (rating, bookId) => dispatch(actions.rateBook(rating, bookId)),
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(book)

@@ -2,17 +2,18 @@ import React from 'react'
 import Book from './Book/Book'
 
 const booksList = (props) => (
-  <div className="BooksList" >
-    {props.books.map(book => (
+  <div className="BooksList border-bottom mb-2" >
+
+    {Object.keys(props.books).map(id => (
       <Book
-        key={book.id}
-        id={book.id}
-        title={book.title}
-        author={book.author}
-        price={book.price}
-        score={book.score}
-        rating={book.rating}
-        image={book.image} />
+        key={id}
+        id={id}
+        title={props.books[id].title}
+        author={props.books[id].author}
+        price={props.books[id].price}
+        score={props.books[id].score}
+        rating={props.books[id].rating}
+        image={props.books[id].image} />
     ))}
   </div>
 );

@@ -16,7 +16,9 @@ $react-rater-active: #fc6;
     font-size: 12px;
   }
   &__rating {
-    .react-rater-star.is-active, .react-rater-star.will-be-active {
+    .react-rater-star.is-active,
+    .react-rater-star.will-be-active,
+    .react-rater-star.is-active-half:before {
       color: #fc6;
     }
   }
