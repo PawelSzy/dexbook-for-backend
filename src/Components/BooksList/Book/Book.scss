@@ -1,5 +1,5 @@
 @import '../../../App.scss';
-
+$react-rater-active: #fc6;
 .book {
     margin: 20px auto;
     padding: 10px;
@@ -14,5 +14,15 @@
   }
   &__smaller-text {
     font-size: 12px;
+  }
+  &__rating {
+    .react-rater-star.is-active, .react-rater-star.will-be-active {
+      color: #fc6;
+    }
+  }
+  &__mark-to-read {
+    &__text {
+      font-size: 12px;
+    }
   }
 }

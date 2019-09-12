@@ -4,6 +4,8 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actions from '../../../State/book';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Rater from 'react-rater'
+import 'react-rater/lib/react-rater.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 //import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -22,7 +24,8 @@ const book = (props) => {
       <div className="col-md-6 my-auto text-md-left">
         <div className="book__title">{props.title}</div>
         <div className="book__author">{props.author}</div>
-        <div className="book__rating">rating: {props.rating}</div>
+
+        <div className="book__rating"><Rater rating={props.rating} total={5} interactive={false} /></div>
         <div className="row col-md-4 col-xl-2 pl-0 book__smaller-text mx-auto mx-md-0">
           <div className="book__price col-md-6 px-0">price: {props.price}</div>
           <div className="book__score col-md-6">score: {props.score}</div>
@@ -30,17 +33,23 @@ const book = (props) => {
       </div>
 
       <div className="col-md-4 my-auto">
-      {
-        (!isBookMarkedToRead)
-          ?
-            <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
-              Want to read
-            </Button>
-          :
-          <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
-            <FontAwesomeIcon icon={faCheck} /> Want to read
-          </Button>
-        }
+        <div>
+          {
+            (!isBookMarkedToRead)
+              ?
+              <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
+                Want to read
+              </Button>
+              :
+              <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
+                <FontAwesomeIcon icon={faCheck} /> Want to read
+              </Button>
+          }
+        </div>
+        <div className="book__mark-to-read book__rating">
+          <div className="book__mark-to-read__text text-secondary">Rate this book</div>
+          <Rater rating={props.rating} total={5} />
+        </div>
       </div>
     </div>
   )
