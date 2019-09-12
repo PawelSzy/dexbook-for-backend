@@ -43,7 +43,7 @@ const book = (props) => {
               </Button>
               :
               <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
-                <FontAwesomeIcon icon={faCheck} />
+                <FontAwesomeIcon icon={faCheck} className="mr-2" />
 
                 Want to read
               </Button>
