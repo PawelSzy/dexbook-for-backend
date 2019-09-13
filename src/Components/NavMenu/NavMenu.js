@@ -5,12 +5,12 @@ import './NavMenu.scss'
 
 const NavMenu = (props) => (
   <Navbar bg="light" expand="lg">
-    <Navbar.Brand href="#home">DexBook</Navbar.Brand>
+    <NavLink className="navbar__link navbar-brand" to={"/"}>DexBook</NavLink>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <Nav.Link><NavLink className="navbar__link" to={"/"}>Home</NavLink></Nav.Link>
-        <Nav.Link><NavLink className="navbar__link" to={"/to-read"}>To Read</NavLink></Nav.Link>
+        <NavLink className="navbar__link nav-link" to={"/"}>Home</NavLink>
+        <NavLink className="navbar__link nav-link" to={"/to-read"}>To Read</NavLink>
         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
           <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

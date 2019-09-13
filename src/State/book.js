@@ -78,7 +78,6 @@ export default (state = initialState, action = {}) => {
       const rating = action.rating.rating
       newBooksRating[action.bookId] = rating
 
-      const id = action.bookId.toString();
       let newBooks = {...state.books}
 
       const wasBookRatedByYou = action.bookId in state.yourBooksRating

@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import { Button, ButtonToolbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import BooksList from 'Components/BooksList/BookList';
 import * as actions from 'State/book';
-
 
 class toReadBooksList extends Component {
   constructor(props) {

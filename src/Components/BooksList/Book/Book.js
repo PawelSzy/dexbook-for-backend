@@ -1,6 +1,6 @@
 import React from 'react'
 import './Book.scss'
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actions from '../../../State/book';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

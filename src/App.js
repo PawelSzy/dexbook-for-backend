@@ -8,7 +8,6 @@ import ToReadBooksList from 'Components/ToReadBooksList/ToReadBooksList'
 import NavMenu from 'Components/NavMenu/NavMenu';
 
 import { connect } from 'react-redux';
-import * as actions from './State/book';
 
 class App extends Component {
   render() {
