@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MainPage from './Containers/MainPage/MainPage';
 import ToReadBooksList from 'Components/ToReadBooksList/ToReadBooksList'
+import YourBookList from 'Components/YourBookList/YourBookList'
 import NavMenu from 'Components/NavMenu/NavMenu';
 
 import { connect } from 'react-redux';
@@ -16,6 +17,7 @@ class App extends Component {
         <NavMenu />
         <Switch>
           <Route path="/to-read" exact component={ToReadBooksList} />
+          <Route path="/your-books" exact component={YourBookList} />
           <Route path="/" exact component={MainPage} />
           <Redirect to="/" />
         </Switch>

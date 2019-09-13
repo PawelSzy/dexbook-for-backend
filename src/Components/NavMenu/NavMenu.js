@@ -11,6 +11,7 @@ const NavMenu = (props) => (
       <Nav className="mr-auto">
         <NavLink className="navbar__link nav-link" to={"/"}>Home</NavLink>
         <NavLink className="navbar__link nav-link" to={"/to-read"}>To Read</NavLink>
+        <NavLink className="navbar__link nav-link" to={"/your-books"}>Your Books</NavLink>
         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
           <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
           <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
