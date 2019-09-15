@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import * as actions from 'State/book';
 import BooksListVirtual from 'Components/BooksLists/BooksListVirtual/BooksListVirtual'
 
-
 class toReadBooksList extends BooksListVirtual {
   filteredBookList = (allBooks, booksId) => {
     let newBookList = {}
