@@ -12,17 +12,22 @@ class SearchForm extends Component {
     this.setState({searchText: e.target.value});
   }
 
+  mySubmitHandler = (e) => {
+    e.preventDefault()
+    this.searchBook()
+  }
+
   searchBook = () => {
     const searchText = this.state.searchText
     this.props.history.push({
-      pathname: '/your-books',
+      pathname: '/search-books',
       search: `?query=${searchText}`,
     })
   }
 
   render() {
     return (
-      <Form inline>
+      <Form inline onSubmit={this.mySubmitHandler}>
         <FormControl type="text" placeholder="Search" className="mr-sm-2" onChange={this.getSearchText} />
         <Button variant="outline-success" onClick={() => this.searchBook()}>Search</Button>
       </Form>

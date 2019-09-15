@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MainPage from './Containers/MainPage/MainPage';
 import ToReadBooksList from 'Components/BooksLists/ToReadBooksList/ToReadBooksList'
 import YourBookList from 'Components/BooksLists/YourBookList/YourBookList'
+import SearchBookList from 'Components/BooksLists/SearchBookList/SearchBookList'
 import NavMenu from 'Components/NavMenu/NavMenu';
 
 import { connect } from 'react-redux';
@@ -18,6 +19,7 @@ class App extends Component {
         <Switch>
           <Route path="/to-read" exact component={ToReadBooksList} />
           <Route path="/your-books" exact component={YourBookList} />
+          <Route path="/search-books" exact component={SearchBookList} />
           <Route path="/" exact component={MainPage} />
           <Redirect to="/" />
         </Switch>

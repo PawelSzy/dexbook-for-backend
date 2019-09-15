@@ -2,14 +2,27 @@ import { connect } from 'react-redux';
 import * as actions from 'State/book';
 import BooksListVirtual from 'Components/BooksLists/BooksListVirtual/BooksListVirtual'
 
-class YourBookList extends BooksListVirtual {
-  filteredBookList = (allBooks, booksId) => {
-    let newBookList = {}
-    booksId.forEach(id => newBookList[id] = allBooks[id])
-    return newBookList
+class SearchBookList extends BooksListVirtual {
+  filteredBookList = (allBooks, searchText) => {
+    const filteredArray = Object.values(allBooks).filter(book => book.title.includes(searchText))
+    return filteredArray.reduce((obj, book) => {
+        obj[book.id.toString()] = {...book}
+        return obj
+      }, {})
   }
 
   listHeader = "Books"
+
+  getSearchText = (search) => {
+    const params = new URLSearchParams(search);
+    return params.get('query');
+  }
+
+  componentDidMount() {
+    const searchText = this.getSearchText(this.props.location.search)
+    this.props.loadBooks();
+    this.setState({books: this.filteredBookList(this.props.books, searchText)})
+  }
 }
 
 const mapStateToProps = state => {
@@ -24,4 +37,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourBookList);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBookList);
