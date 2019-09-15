@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
 import BooksList from 'Components/BooksList/BookList';
-import * as actions from 'State/book';
 
 class BooksListVirtual extends Component {
   state = {

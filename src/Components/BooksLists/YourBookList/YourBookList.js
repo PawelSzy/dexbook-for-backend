@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import BooksList from 'Components/BooksList/BookList';
 import BooksListVirtual from 'Components/BooksLists/BooksListVirtual/BooksListVirtual'
 
 import * as actions from 'State/book';
