@@ -4,8 +4,8 @@ import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MainPage from './Containers/MainPage/MainPage';
-import ToReadBooksList from 'Components/ToReadBooksList/ToReadBooksList'
-import YourBookList from 'Components/YourBookList/YourBookList'
+import ToReadBooksList from 'Components/BooksLists/ToReadBooksList/ToReadBooksList'
+import YourBookList from 'Components/BooksLists/YourBookList/YourBookList'
 import NavMenu from 'Components/NavMenu/NavMenu';
 
 import { connect } from 'react-redux';
