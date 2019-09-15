@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Nav, NavDropdown, Form, FormControl, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import SearchForm from 'Components/SearchForm/SearchForm'
 import './NavMenu.scss'
 
 const NavMenu = (props) => (
@@ -20,10 +21,8 @@ const NavMenu = (props) => (
           <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
         </NavDropdown>
       </Nav>
-      <Form inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-success">Search</Button>
-      </Form>
+
+      <SearchForm />
     </Navbar.Collapse>
   </Navbar>
 )
