@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import BooksList from 'Components/BooksList/BookList';
+import NavColumn from 'Components/NavColumn/NavColumn'
 
 class BooksListVirtual extends Component {
   state = {
@@ -21,14 +22,22 @@ class BooksListVirtual extends Component {
     const showBook = Object.keys(this.state.books).length > 0 && this.state.books.constructor === Object
     return (
       <div className="container">
-        <h2 className="mt-4">{this.listHeader}</h2>
-        { showBook
-          ?
+        <div className="row">
           <div className="col-lg-8">
-            <BooksList books={this.state.books} />
+            <h2 className="mt-4 text-left">{this.listHeader}</h2>
+              { showBook
+                ?
+                  <div>
+                    <BooksList books={this.state.books} />
+                  </div>
+                : null
+              }
           </div>
-          : null
-        }
+
+          <div className="col-lg-4 mt-4">
+            <NavColumn />
+          </div>
+        </div>
       </div>
     )
   }
