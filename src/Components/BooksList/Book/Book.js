@@ -6,6 +6,7 @@ import * as actions from '../../../State/book';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Rater from 'react-rater'
 import 'react-rater/lib/react-rater.css'
+import { NavLink } from 'react-router-dom';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +23,11 @@ const book = (props) => {
       </div>
 
       <div className="col-md-6 my-auto text-md-left">
-        <div className="book__title">{props.title}</div>
+        <div className="book__title">
+          <NavLink to={`/book/${props.id}`} >
+            {props.title}
+          </NavLink>
+        </div>
         <div className="book__author">{props.author}</div>
 
         <div className="book__rating"><Rater rating={props.rating} total={5} interactive={false} /></div>

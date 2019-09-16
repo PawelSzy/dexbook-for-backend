@@ -1,12 +1,11 @@
 import React from 'react'
-import { Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom'
 
 const links = [
   {link: "/to-read", title: "To Read"},
   {link: "/your-books", title: "Your Books"},
 ]
-
 
 const NavColumn = () => (
  <div className="col-12 row">

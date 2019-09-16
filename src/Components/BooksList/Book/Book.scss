@@ -4,13 +4,13 @@ $react-rater-active: #fc6;
     margin: 20px auto;
     padding: 10px;
     font-family: $main-font;
-  &__title {
+  &__title, &__title a {
     font-weight: bold;
     font-size: 20px;
+    color: rgb(33, 37, 41)
   }
   &__image {
     max-height: 150px;
-//    max-width: 100px;
   }
   &__smaller-text {
     font-size: 12px;

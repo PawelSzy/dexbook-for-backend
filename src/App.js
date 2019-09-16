@@ -8,6 +8,7 @@ import ToReadBooksList from 'Components/BooksLists/ToReadBooksList/ToReadBooksLi
 import YourBookList from 'Components/BooksLists/YourBookList/YourBookList'
 import SearchBookList from 'Components/BooksLists/SearchBookList/SearchBookList'
 import NavMenu from 'Components/NavMenu/NavMenu';
+import BookPage from 'Containers/BookPage/BookPage'
 
 import { connect } from 'react-redux';
 
@@ -20,6 +21,7 @@ class App extends Component {
           <Route path="/to-read" exact component={ToReadBooksList} />
           <Route path="/your-books" exact component={YourBookList} />
           <Route path="/search-books" exact component={SearchBookList} />
+          <Route path="/book" component={BookPage} />
           <Route path="/" exact component={MainPage} />
           <Redirect to="/" />
         </Switch>
@@ -37,6 +39,5 @@ const mapDispatchToProps = dispatch => {
   return {
   };
 };
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
