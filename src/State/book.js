@@ -75,6 +75,7 @@ export default (state = initialState, action = {}) => {
       }
     case RATE_BOOK:
       let newBooksRating = {...state.yourBooksRating}
+      console.log(action.rating);
       const rating = action.rating.rating
       newBooksRating[action.bookId] = rating
 

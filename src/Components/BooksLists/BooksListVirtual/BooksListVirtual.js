@@ -21,7 +21,7 @@ class BooksListVirtual extends Component {
     const showBook = Object.keys(this.state.books).length > 0 && this.state.books.constructor === Object
     return (
       <div className="container">
-        <h2>{this.listHeader}</h2>
+        <h2 className="mt-4">{this.listHeader}</h2>
         { showBook
           ?
           <div className="col-lg-8">
