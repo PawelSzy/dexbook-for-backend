@@ -4,6 +4,7 @@ import BooksList from 'Components/BooksList/BookList';
 class BooksListVirtual extends Component {
   state = {
     books: {},
+    wasBooksFiltered: false
   }
 
   filteredBookList = (allBooks, booksId) => {
@@ -14,7 +15,6 @@ class BooksListVirtual extends Component {
 
   componentDidMount() {
     this.props.loadBooks();
-    this.setState({books: this.filteredBookList(this.props.books, Object.keys(this.props.yourBooksRating))})
   }
 
   render() {

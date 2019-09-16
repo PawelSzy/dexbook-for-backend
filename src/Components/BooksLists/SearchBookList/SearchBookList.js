@@ -3,6 +3,11 @@ import * as actions from 'State/book';
 import BooksListVirtual from 'Components/BooksLists/BooksListVirtual/BooksListVirtual'
 
 class SearchBookList extends BooksListVirtual {
+  state = {
+    books: {},
+    searchText: ""
+  }
+
   filteredBookList = (allBooks, searchText) => {
     const filteredArray = Object.values(allBooks).filter(book => book.title.includes(searchText))
     return filteredArray.reduce((obj, book) => {
@@ -18,10 +23,14 @@ class SearchBookList extends BooksListVirtual {
     return params.get('query');
   }
 
-  componentDidMount() {
+  componentDidUpdate (prevProps, prevState) {
     const searchText = this.getSearchText(this.props.location.search)
-    this.props.loadBooks();
-    this.setState({books: this.filteredBookList(this.props.books, searchText)})
+    if (searchText !== prevState.searchText) {
+      this.setState({
+        books: this.filteredBookList(this.props.books, searchText),
+        searchText: searchText
+      })
+    }
   }
 }
 

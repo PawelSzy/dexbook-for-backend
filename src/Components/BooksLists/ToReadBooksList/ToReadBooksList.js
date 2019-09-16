@@ -11,9 +11,13 @@ class toReadBooksList extends BooksListVirtual {
 
   listHeader = "Books you want to read"
 
-  componentDidMount() {
-    this.props.loadBooks()
-    this.setState({books: this.filteredBookList(this.props.books, this.props.readedBooks)})
+  componentDidUpdate (prevProps, prevState) {
+    if (!this.state.wasBooksFiltered) {
+      this.setState({
+        books: this.filteredBookList(this.props.books, this.props.readedBooks),
+        wasBooksFiltered: true
+      })
+    }
   }
 }
 

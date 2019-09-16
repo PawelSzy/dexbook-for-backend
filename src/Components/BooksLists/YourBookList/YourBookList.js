@@ -11,6 +11,15 @@ class YourBookList extends BooksListVirtual {
   }
 
   listHeader = "Books you rated"
+
+  componentDidUpdate() {
+    if (!this.state.wasBooksFiltered) {
+      this.setState({
+        books: this.filteredBookList(this.props.books, Object.keys(this.props.yourBooksRating)),
+        wasBooksFiltered: true
+      })
+    }
+  }
 }
 
 const mapStateToProps = state => {
