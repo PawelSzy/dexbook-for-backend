@@ -56,17 +56,17 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
     // Number of cases should be equal to number of action types
     case WANT_TO_READ:
-      if (state.wantToRead.includes(action.bookId)) {
+      if (state.wantToRead.includes(Number(action.bookId))) {
         return state;
       }
       return {
         ...state,
-      wantToRead: state.wantToRead.concat([action.bookId])
+      wantToRead: state.wantToRead.concat( [Number(action.bookId)] )
       }
     case REMOVE_WANT_TO_READ:
       return {
         ...state,
-        wantToRead: state.wantToRead.filter(bookId => bookId !== action.bookId)
+        wantToRead: state.wantToRead.filter(bookId => bookId !== Number(action.bookId))
       }
     case LOAD_BOOKS:
       return {

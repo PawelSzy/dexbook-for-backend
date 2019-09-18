@@ -14,7 +14,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 library.add(faCheck)
 
 const book = (props) => {
-  const isBookMarkedToRead = props.readedBooks.includes(props.id)
+  const isBookMarkedToRead = props.readedBooks.includes(Number(props.id))
   const yourBookRating = props.id in props.booksRating ? props.booksRating[props.id] : 0
   return (
     <div className="book row border-top">
