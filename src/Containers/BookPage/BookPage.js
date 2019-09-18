@@ -8,6 +8,7 @@ import 'react-rater/lib/react-rater.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import NavColumn from 'Components/NavColumn/NavColumn'
 
 library.add(faCheck)
 
@@ -27,43 +28,48 @@ class Book extends Component {
     const book = this.props.books[id]
     return (
       <div className="Container">
-      <div className="book row col-md-8 border-top">
-        <div className="col-md-2 pl-0 mt-1 mb-5">
-          <img className="img-fluid" src={book.image} alt="book cover {book.title}" />
-        </div>
+      <div className="book col-md-10 border-top row">
+        <div className="row col-md-8">
+          <div className="col-md-4 pl-0 mt-1 mb-5">
+            <img className="img-fluid" src={book.image} alt="book cover {book.title}" />
+            </div>
 
-        <div className="col-md-6 text-md-left">
-          <div className="book__title">{book.title}</div>
-          <div className="book__author">{book.author}</div>
+          <div className="col-md-6 text-md-left">
+            <div className="book__title">{book.title}</div>
+            <div className="book__author">{book.author}</div>
 
-          <div className="book__rating"><Rater rating={book.rating} total={5} interactive={false} /></div>
-          <div className="row col-md-6 pl-0 book__smaller-text mx-auto mx-md-0">
+            <div className="book__rating"><Rater rating={book.rating} total={5} interactive={false} /></div>
+            <div className="row col-md-6 pl-0 book__smaller-text mx-auto mx-md-0">
             <div className="book__price col-md-6 px-0">price: {book.price}</div>
             <div className="book__score col-md-6">score: {book.score}</div>
-          </div>
-        </div>
+            </div>
+            </div>
 
-        <div className="col-md-5 my-auto text-left pl-0 my-4">
-          <div>
-          {
+          <div className="col-md-5 my-auto text-left pl-0 my-4">
+            <div>
+            {
             (!isBookMarkedToRead)
-              ?
-              <Button variant="primary" size="sm" onClick={() => this.props.readLater(book.id)}>
-                Want to read
-              </Button>
-              :
-              <Button variant="success" size="sm" onClick={() => this.props.deleteFromReadLater(book.id)}>
-                <FontAwesomeIcon icon={faCheck} className="mr-2" />
+            ?
+            <Button variant="primary" size="sm" onClick={() => this.props.readLater(book.id)}>
+            Want to read
+            </Button>
+            :
+            <Button variant="success" size="sm" onClick={() => this.props.deleteFromReadLater(book.id)}>
+            <FontAwesomeIcon icon={faCheck} className="mr-2" />
 
-                Want to read
-              </Button>
+            Want to read
+            </Button>
             }
-          </div>
+            </div>
 
-          <div className="book__mark-to-read book__rating">
+            <div className="book__mark-to-read book__rating">
             <div className="book__mark-to-read__text text-secondary mt-1">Rate this book</div>
             <Rater rating={Math.round(yourBookRating)} total={5} onRate={(rating) => this.props.rateBook(rating, book.id)} />
-          </div>
+            </div>
+            </div>
+        </div>
+        <div className="col-md-4 mt-4">
+          <NavColumn />
         </div>
       </div>
       </div>
