@@ -1,6 +1,7 @@
 // ACTION TYPES (there may be more than one)
 const LOAD_BOOKS = 'book/LOAD_BOOKS'
 const WANT_TO_READ = 'book/WANT_TO_READ'
+const LOAD_WANT_TO_READ_BOOKS_STORAGE = 'book/LOAD_WANT_TO_READ_BOOKS_STORAGE'
 const REMOVE_WANT_TO_READ = 'book/REMOVE_WANT_TO_READ'
 const RATE_BOOK = 'book/RATE_BOOK'
 
@@ -15,6 +16,10 @@ export const removeReadLaterBook = (bookId) => {
 
 export const rateBook = (rating, bookId) => {
   return {type: RATE_BOOK, bookId, rating}
+}
+
+export const loadWantToReadBookFromStorage = () => {
+  return {type: LOAD_WANT_TO_READ_BOOKS_STORAGE  }
 }
 
 export const loadBooks = () => {
@@ -51,6 +56,22 @@ const updateBookRatingRatedByYou = (book, rating, yourBooksRating) => {
   return book;
 }
 
+const addWantToReadBookToStorage = (bookId) => {
+  const storageReadLaterBooks = localStorage.getItem('wantToRead') ? JSON.parse(localStorage.getItem('wantToRead')) : []
+  if (!(bookId in storageReadLaterBooks)) {
+    localStorage.setItem('wantToRead', JSON.stringify([...storageReadLaterBooks, ...[bookId]]));
+  }
+}
+
+const removeReadLaterBookFromStorage = (bookId) => {
+  const storageReadLaterBooks = localStorage.getItem('wantToRead') ? JSON.parse(localStorage.getItem('wantToRead')) : []
+  localStorage.setItem('wantToRead', JSON.stringify(storageReadLaterBooks.filter(id => id !== bookId)))
+}
+
+const getReadLaterBooksFromStorage = () => {
+  return localStorage.getItem('wantToRead') ? JSON.parse(localStorage.getItem('wantToRead')) : []
+}
+
 //REDUCER
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -59,11 +80,13 @@ export default (state = initialState, action = {}) => {
       if (state.wantToRead.includes(Number(action.bookId))) {
         return state;
       }
+      addWantToReadBookToStorage(action.bookId)
       return {
         ...state,
       wantToRead: state.wantToRead.concat( [Number(action.bookId)] )
       }
     case REMOVE_WANT_TO_READ:
+      removeReadLaterBookFromStorage(action.bookId)
       return {
         ...state,
         wantToRead: state.wantToRead.filter(bookId => bookId !== Number(action.bookId))
@@ -72,6 +95,15 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         books: {...state.books, ...action.books}
+      }
+    case LOAD_WANT_TO_READ_BOOKS_STORAGE:
+      debugger
+      const readLater = getReadLaterBooksFromStorage().map(number => Number(number))
+      const toRead = state.wantToRead ? state.wantToRead : []
+      let setWantToread = new Set( [ ...toRead, ...readLater])
+      return {
+        ...state,
+        wantToRead: [...setWantToread]
       }
     case RATE_BOOK:
       let newBooksRating = {...state.yourBooksRating}

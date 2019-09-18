@@ -1,12 +1,11 @@
 import { updateObject } from 'shared/utility';
+import * as bookActions from './book'
 
 export const AUTH_START = 'auth/AUTH_START';
 export const AUTH_SUCCESS = 'auth/AUTH_SUCCESS';
 export const AUTH_FAIL = 'auth/AUTH_FAIL';
 export const AUTH_LOGOUT = 'auth/AUTH_LOGOUT';
-
 export const SET_AUTH_REDIRECT_PATH = 'auth/SET_AUTH_REDIRECT_PATH';
-
 
 export const authStart = () => {
     return {
@@ -42,8 +41,7 @@ export const authStart = () => {
     return dispatch => {
       setTimeout(() => {
         dispatch(logout());
-      }, new Date(new Date().getTime() + 10000));
-    //}, expirationTime * 1000);
+    }, expirationTime * 1000);
     };
   };
 
@@ -56,7 +54,7 @@ export const authStart = () => {
     return new Promise((resolve, reject) => {
       resolve(
         { data : {
-            expiresIn: 60*60*1000,
+            expiresIn: 60*60,
             idToken: '1234',
             localId: 'xyzABC',
           }
@@ -81,12 +79,14 @@ export const authStart = () => {
       //axios.post(url, authData)
       checkLogin(authData, isSignup)
         .then(response => {
-          const expirationDate = new Date(new Date().getTime() + response.data.expiresIn );
+          const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
           localStorage.setItem('token', response.data.idToken);
           localStorage.setItem('expirationDate', expirationDate);
           localStorage.setItem('userId', response.data.localId);
           dispatch(authSuccess(response.data.idToken, response.data.localId));
           dispatch(checkAuthTimeout(response.data.expiresIn));
+          dispatch(bookActions.loadWantToReadBookFromStorage())
+
         })
         .catch(err => {
           dispatch(authFail(err.response.data.error));
