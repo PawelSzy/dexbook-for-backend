@@ -97,7 +97,6 @@ export default (state = initialState, action = {}) => {
         books: {...state.books, ...action.books}
       }
     case LOAD_WANT_TO_READ_BOOKS_STORAGE:
-      debugger
       const readLater = getReadLaterBooksFromStorage().map(number => Number(number))
       const toRead = state.wantToRead ? state.wantToRead : []
       let setWantToread = new Set( [ ...toRead, ...readLater])
