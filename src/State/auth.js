@@ -29,12 +29,13 @@ export const authStart = () => {
   };
 
   export const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('userId');
-    return {
-      type: AUTH_LOGOUT
-    };
+    return dispatch => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('expirationDate');
+      localStorage.removeItem('userId');
+      dispatch(bookActions.resetWantToReadBooks())
+      dispatch({type: AUTH_LOGOUT})
+    }
   };
 
   export const checkAuthTimeout = (expirationTime) => {
