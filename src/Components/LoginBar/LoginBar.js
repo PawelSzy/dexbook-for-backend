@@ -2,9 +2,7 @@ import React from 'react'
 import { Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom'
 
-
 const loginBar = (props) => {
-  debugger
   let links = [
     {link: "/login", title: "Login"},
     {link: "/register", title: "Register"},
