@@ -5,6 +5,8 @@ const LOAD_WANT_TO_READ_BOOKS_STORAGE = 'book/LOAD_WANT_TO_READ_BOOKS_STORAGE'
 const REMOVE_WANT_TO_READ = 'book/REMOVE_WANT_TO_READ'
 const RATE_BOOK = 'book/RATE_BOOK'
 const RESET_WANT_TO_READ = 'book/RESET_WANT_TO_READ'
+const LOAD_RATED_BOOKS_FROM_STORAGE = 'book/LOAD_RATED_BOOKS_FROM_STORAGE'
+const RESET_RATED_BOOKS = 'book/RESET_RATED_BOOKS'
 
 // ACTION CREATOR - in this file it is a THUNK
 export const readLaterBook = (bookId) => {
@@ -16,15 +18,23 @@ export const removeReadLaterBook = (bookId) => {
 }
 
 export const rateBook = (rating, bookId) => {
-  return {type: RATE_BOOK, bookId, rating}
+  return { type: RATE_BOOK, bookId, rating }
 }
 
 export const loadWantToReadBookFromStorage = () => {
-  return {type: LOAD_WANT_TO_READ_BOOKS_STORAGE  }
+  return { type: LOAD_WANT_TO_READ_BOOKS_STORAGE }
 }
 
 export const resetWantToReadBooks = () => {
-  return {type: RESET_WANT_TO_READ}
+  return { type: RESET_WANT_TO_READ }
+}
+
+export const getRatedBooks = () => {
+  return { type: LOAD_RATED_BOOKS_FROM_STORAGE }
+}
+
+export const resetRatedBooks = () => {
+  return { type: RESET_RATED_BOOKS }
 }
 
 export const loadBooks = () => {
@@ -77,6 +87,22 @@ const getReadLaterBooksFromStorage = () => {
   return localStorage.getItem('wantToRead') ? JSON.parse(localStorage.getItem('wantToRead')) : []
 }
 
+const addRatedBooksToStorage = (bookId, rating) => {
+  let storageRatedBooks = localStorage.getItem('ratedBooks') ? JSON.parse(localStorage.getItem('ratedBooks')) : {}
+  storageRatedBooks[Number(bookId)] = rating
+  localStorage.setItem('ratedBooks', JSON.stringify(storageRatedBooks));
+}
+
+const removeRatedBooksFromStorage = (bookId) => {
+  let storageRatedBooks = localStorage.getItem('ratedBooks') ? JSON.parse(localStorage.getItem('ratedBooks')) : {}
+  delete storageRatedBooks['bookId']
+  localStorage.setItem('ratedBooks', JSON.stringify(storageRatedBooks));
+}
+
+const getRatedBooksFromStorage = () => {
+  return localStorage.getItem('ratedBooks') ? JSON.parse(localStorage.getItem('ratedBooks')) : {}
+}
+
 //REDUCER
 export default (state = initialState, action = {}) => {
   switch (action.type) {
@@ -114,9 +140,14 @@ export default (state = initialState, action = {}) => {
         ...state,
         wantToRead: [...setWantToread]
       }
+    case LOAD_RATED_BOOKS_FROM_STORAGE:
+      const ratedBooks = getRatedBooksFromStorage()
+      return {
+        ...state,
+        yourBooksRating: {...ratedBooks, ...state.yourBooksRating}
+      }
     case RATE_BOOK:
       let newBooksRating = {...state.yourBooksRating}
-      console.log(action.rating);
       const rating = action.rating.rating
       newBooksRating[action.bookId] = rating
 
@@ -128,10 +159,16 @@ export default (state = initialState, action = {}) => {
       } else {
         newBooks[action.bookId] = updateOverallBookRating(Object.assign({}, newBooks[action.bookId]), rating)
       }
+      addRatedBooksToStorage(action.bookId, rating)
       return {
         ...state,
         books: {...state.books, ...newBooks},
         yourBooksRating: newBooksRating,
+      }
+    case RESET_RATED_BOOKS:
+      return {
+        ...state,
+        yourBooksRating: {}
       }
     default:
       return state

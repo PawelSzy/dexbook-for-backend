@@ -34,6 +34,7 @@ export const authStart = () => {
       localStorage.removeItem('expirationDate');
       localStorage.removeItem('userId');
       dispatch(bookActions.resetWantToReadBooks())
+      dispatch(bookActions.resetRatedBooks())
       dispatch({type: AUTH_LOGOUT})
     }
   };
@@ -87,6 +88,7 @@ export const authStart = () => {
           dispatch(authSuccess(response.data.idToken, response.data.localId));
           dispatch(checkAuthTimeout(response.data.expiresIn));
           dispatch(bookActions.loadWantToReadBookFromStorage())
+          dispatch(bookActions.getRatedBooks())
 
         })
         .catch(err => {
