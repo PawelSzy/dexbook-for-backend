@@ -4,6 +4,7 @@ import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import MainPage from './Containers/MainPage/MainPage';
+import MapPage from './Containers/MapPage/MapPage';
 import ToReadBooksList from 'Components/BooksLists/ToReadBooksList/ToReadBooksList'
 import YourBookList from 'Components/BooksLists/YourBookList/YourBookList'
 import SearchBookList from 'Components/BooksLists/SearchBookList/SearchBookList'
@@ -35,7 +36,7 @@ class App extends Component {
           <Route path="/search-books" exact component={SearchBookList} />
 
           <Route path="/book" component={BookPage} />
-
+          <Route path="/libraries" component={MapPage} />
           <Route path="/" exact component={MainPage} />
           <Redirect to="/" />
         </Switch>

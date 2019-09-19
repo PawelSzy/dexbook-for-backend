@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 const links = [
   {link: "/to-read", title: "To Read"},
   {link: "/your-books", title: "Your Books"},
+  {link: '/libraries', title: "Find libraries near you"},
 ]
 
 const NavColumn = () => (
