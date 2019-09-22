@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import * as serviceWorker from './serviceWorker.js';
 import reducerBook from './State/book';
 import reducerAuth from './State/auth'
-import reducerLiblaries from './State/liblaries';
+import reducerlibraries from './State/libraries';
 import './index.css';
 import App from './App';
 
@@ -16,7 +16,7 @@ const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX
 const rootReducer = combineReducers({
   book: reducerBook,
   auth: reducerAuth,
-  liblaries: reducerLiblaries,
+  libraries: reducerlibraries,
 });
 
 const store = createStore(rootReducer, composeEnhancers(

@@ -34,7 +34,6 @@ class App extends Component {
           <Route path="/to-read" exact component={ToReadBooksList} />
           <Route path="/your-books" exact component={YourBookList} />
           <Route path="/search-books" exact component={SearchBookList} />
-
           <Route path="/book" component={BookPage} />
           <Route path="/libraries" component={MapPage} />
           <Route path="/" exact component={MainPage} />

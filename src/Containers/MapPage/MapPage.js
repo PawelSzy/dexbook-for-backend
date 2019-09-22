@@ -5,20 +5,20 @@ import GoogleMapsContainer from 'Components/GoogleMapsContainer/GoogleMapsContai
 import LeafletMaps from 'Components/LeafletMaps/LeafletMaps'
 
 import { connect } from 'react-redux';
-import * as actions from 'State/liblaries';
+import * as actions from 'State/libraries';
 
 class MapPage extends Component {
   componentDidMount() {
-    this.props.loadLiblaries();
+    this.props.loadlibraries();
   }
 
   render() {
-    const liblaries = this.props.liblaries.map(liblary => ({...liblary,
-      text: "Liblary: " + liblary.liblaryName })
+    const libraries = this.props.libraries.map(library => ({...library,
+      text: "library: " + library.libraryName })
     )
     return (
       <div className="mt-4">
-        <LeafletMaps markers={liblaries} />
+        <LeafletMaps markers={libraries} />
       </div>
     );
   }
@@ -26,13 +26,13 @@ class MapPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    liblaries: state.liblaries.liblaries
+    libraries: state.libraries.libraries
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadLiblaries: () => dispatch( actions.loadLiblaries()),
+    loadlibraries: () => dispatch( actions.loadlibraries()),
   };
 };
 

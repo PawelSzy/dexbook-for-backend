@@ -1,50 +1,50 @@
 // ACTION TYPES (there may be more than one)
-const LOAD_LIBLARIES ='liblaries/LOAD_LIBLARIES '
+const LOAD_libraries ='libraries/LOAD_libraries '
 
 // ACTION CREATOR - in this file it is a THUNK
-export const loadLiblaries = () => {
-  const liblaries = [
+export const loadlibraries = () => {
+  const libraries = [
     {
       id: 1,
       lat: 54.518468,
       lng: 18.542111,
-      liblaryName: "Vademecum"
+      libraryName: "Vademecum"
     },
     {
       id: 2,
       lat: 54.524515,
       lng: 18.542914,
-      liblaryName: "Muza"
+      libraryName: "Muza"
     },
     {
       id: 3,
       lat: 54.520517,
       lng: 18.543043,
-      liblaryName: "Świat książki"
+      libraryName: "Świat książki"
     },
     {
       id: 4,
       lat: 54.512434,
       lng: 18.539534,
-      liblaryName: "Matras"
+      libraryName: "Matras"
     },
   ]
-  return { type: LOAD_LIBLARIES, liblaries }
+  return { type: LOAD_libraries, libraries }
 }
 
 // INITIAL VALUE
 const initialState = {
   // List of books that user whant to read later.
-  liblaries: [],
+  libraries: [],
 }
 
 //REDUCER
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case LOAD_LIBLARIES:
+    case LOAD_libraries:
       return {
         ...state,
-        liblaries: [...state.liblaries, ...action.liblaries]
+        libraries: [...state.libraries, ...action.libraries]
       }
   }
   return state
