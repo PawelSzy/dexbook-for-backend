@@ -1,8 +1,8 @@
 // ACTION TYPES (there may be more than one)
-const LOAD_libraries ='libraries/LOAD_libraries '
+const LOAD_LIBRARIES ='libraries/LOAD_LIBRARIES '
 
 // ACTION CREATOR - in this file it is a THUNK
-export const loadlibraries = () => {
+export const loadLibraries = () => {
   const libraries = [
     {
       id: 1,
@@ -29,7 +29,7 @@ export const loadlibraries = () => {
       libraryName: "Matras"
     },
   ]
-  return { type: LOAD_libraries, libraries }
+  return { type: LOAD_LIBRARIES, libraries }
 }
 
 // INITIAL VALUE
@@ -41,7 +41,7 @@ const initialState = {
 //REDUCER
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case LOAD_libraries:
+    case LOAD_LIBRARIES:
       return {
         ...state,
         libraries: [...state.libraries, ...action.libraries]

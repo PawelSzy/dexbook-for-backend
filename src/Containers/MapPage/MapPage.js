@@ -9,12 +9,12 @@ import * as actions from 'State/libraries';
 
 class MapPage extends Component {
   componentDidMount() {
-    this.props.loadlibraries();
+    this.props.loadLibraries();
   }
 
   render() {
     const libraries = this.props.libraries.map(library => ({...library,
-      text: "library: " + library.libraryName })
+      text: "Llibrary: " + library.libraryName })
     )
     return (
       <div className="mt-4">
@@ -32,7 +32,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadlibraries: () => dispatch( actions.loadlibraries()),
+    loadLibraries: () => dispatch( actions.loadLibraries()),
   };
 };
 
