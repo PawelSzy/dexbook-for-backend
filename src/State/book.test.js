@@ -35,6 +35,12 @@ describe('auth reducer', () => {
     });
   });
 
+  it('Remove book from readed', () => {
+    expect(reducer({readedBooks: [1, 2]}, actionTypes.removeBookFromReaded(1))).toEqual({
+      readedBooks: [2],
+    });
+  });
+
 
   it('Rate books', () => {
     expect(reducer({

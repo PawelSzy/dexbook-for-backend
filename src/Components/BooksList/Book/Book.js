@@ -17,10 +17,9 @@ const book = (props) => {
   const isBookMarkedToRead = props.wantToReadBooks.includes(Number(props.id))
   const yourBookRating = props.id in props.booksRating ? props.booksRating[props.id] : 0
   const isBookReaded = props.readedBooks.includes(Number(props.id))
-  const readedOrToReadText = isBookReaded ? "Readed" : "Want to read"
-
   const WANT_TO_READ = "Want to read"
   const READED = "Readed"
+  const readedOrToReadText = isBookReaded ? READED : WANT_TO_READ
 
   const bookSelectOption = (event, bookId) => {
     const chosenOption = event.target.value
@@ -73,8 +72,10 @@ const book = (props) => {
                       className="btn-primary d-inline book__button__form"
                       as="select"
                       onChange={(e) => bookSelectOption(e, props.id)} >
+                      
                       <option>
                       </option>
+
                       <option>
                           { WANT_TO_READ }
                       </option>
