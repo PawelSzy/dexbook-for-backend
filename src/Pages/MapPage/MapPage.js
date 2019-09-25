@@ -6,8 +6,23 @@ import { connect } from 'react-redux';
 import * as actions from 'State/libraries';
 
 class MapPage extends Component {
+  state = {
+    userPosition: {
+      lat: 54.5144531,
+      lng: 18.5236516,
+    }
+  }
   componentDidMount() {
     this.props.loadLibraries();
+    navigator.geolocation.getCurrentPosition(position => {
+      console.log("position: ", position)
+      this.setState({
+        userPosition: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+      })
+    })
   }
 
   render() {
@@ -16,7 +31,7 @@ class MapPage extends Component {
     )
     return (
       <div className="mt-4">
-        <LeafletMaps markers={libraries} />
+        <LeafletMaps markers={libraries} startPosition={this.state.userPosition} />
       </div>
     );
   }

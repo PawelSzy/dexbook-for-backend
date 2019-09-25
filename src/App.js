@@ -3,13 +3,13 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import MainPage from './Containers/MainPage/MainPage';
-import MapPage from './Containers/MapPage/MapPage';
+import MainPage from './Pages/MainPage/MainPage';
+import MapPage from './Pages/MapPage/MapPage';
 import ToReadBooksList from 'Components/BooksLists/ToReadBooksList/ToReadBooksList'
 import YourBookList from 'Components/BooksLists/YourBookList/YourBookList'
 import SearchBookList from 'Components/BooksLists/SearchBookList/SearchBookList'
 import NavMenu from 'Components/NavMenu/NavMenu';
-import BookPage from 'Containers/BookPage/BookPage'
+import BookPage from 'Pages/BookPage/BookPage'
 import LoginBar from 'Components/LoginBar/LoginBar'
 import Logout from 'Components/LoginBar/Logout/Logout'
 import Auth from 'Components/Auth/Auth'
