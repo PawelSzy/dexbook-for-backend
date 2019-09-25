@@ -31,6 +31,7 @@ class MapPage extends Component {
     )
     return (
       <div className="mt-4">
+        <h3 className="text-secondary">In demo only libraries in Gdynia</h3>
         <LeafletMaps markers={libraries} startPosition={this.state.userPosition} />
       </div>
     );
