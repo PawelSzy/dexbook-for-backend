@@ -23,7 +23,7 @@ class Book extends Component {
     }
     const url_array = this.props.location.pathname.split('/') // Split the string into an array with / as separator
     const id = url_array[2];
-    const isBookMarkedToRead = this.props.readedBooks.includes(Number(id))
+    const isBookMarkedToRead = this.props.wantToReadBooks.includes(Number(id))
     const yourBookRating = id in this.props.yourBooksRating ? this.props.yourBooksRating[id] : 0
     const book = this.props.books[id]
     return (
@@ -80,7 +80,7 @@ class Book extends Component {
 const mapStateToProps = state => {
   return {
     yourBooksRating: state.book.yourBooksRating,
-    readedBooks: state.book.wantToRead,
+    wantToReadBooks: state.book.wantToRead,
     books: state.book.books,
   }
 }

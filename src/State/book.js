@@ -55,6 +55,7 @@ const initialState = {
     wantToRead: [],
     books: {},
     yourBooksRating: {},
+    readedBooks: []
 }
 
 const updateOverallBookRating = (book, rating) => {
@@ -160,10 +161,13 @@ export default (state = initialState, action = {}) => {
         newBooks[action.bookId] = updateOverallBookRating(Object.assign({}, newBooks[action.bookId]), rating)
       }
       addRatedBooksToStorage(action.bookId, rating)
+      removeReadLaterBookFromStorage(Number(action.bookId))
       return {
         ...state,
         books: {...state.books, ...newBooks},
         yourBooksRating: newBooksRating,
+        readedBooks:  [...(new Set(state.readedBooks)).add(Number(action.bookId))],
+        wantToRead: state.wantToRead.filter(bookId => Number(bookId) !== Number(action.bookId))
       }
     case RESET_RATED_BOOKS:
       return {

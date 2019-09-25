@@ -14,8 +14,11 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 library.add(faCheck)
 
 const book = (props) => {
-  const isBookMarkedToRead = props.readedBooks.includes(Number(props.id))
+  const isBookMarkedToRead = props.wantToReadBooks.includes(Number(props.id))
   const yourBookRating = props.id in props.booksRating ? props.booksRating[props.id] : 0
+  const isBookReaded = props.readedBooks.includes(Number(props.id))
+  const readedOrToReadText = isBookReaded ? "Readed" : "Want to read"
+
   return (
     <div className="book row border-top">
       <div className="col-md-2 my-1">
@@ -40,17 +43,16 @@ const book = (props) => {
       <div className="col-md-4 my-auto">
         <div>
           {
-            (!isBookMarkedToRead)
+            (isBookMarkedToRead || isBookReaded)
               ?
-              <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
-                Want to read
-              </Button>
+                <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
+                  <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                  { readedOrToReadText }
+                </Button>
               :
-              <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
-                <FontAwesomeIcon icon={faCheck} className="mr-2" />
-
-                Want to read
-              </Button>
+                <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
+                  Want to read
+                </Button>
           }
         </div>
 
@@ -65,8 +67,9 @@ const book = (props) => {
 
 const mapStateToProps = state => {
   return {
-    readedBooks: state.book.wantToRead,
+    wantToReadBooks: state.book.wantToRead,
     booksRating: state.book.yourBooksRating,
+    readedBooks: state.book.readedBooks,
   }
 }
 

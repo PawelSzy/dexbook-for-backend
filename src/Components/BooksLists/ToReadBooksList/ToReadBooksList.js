@@ -14,7 +14,7 @@ class toReadBooksList extends BooksListVirtual {
   componentDidUpdate (prevProps, prevState) {
     if (!this.state.wasBooksFiltered) {
       this.setState({
-        books: this.filteredBookList(this.props.books, this.props.readedBooks),
+        books: this.filteredBookList(this.props.books, this.props.wantToReadBooks),
         wasBooksFiltered: true
       })
     }
@@ -23,7 +23,7 @@ class toReadBooksList extends BooksListVirtual {
 
 const mapStateToProps = state => {
   return {
-    readedBooks: state.book.wantToRead,
+    wantToReadBooks: state.book.wantToRead,
     books: state.book.books,
   }
 }

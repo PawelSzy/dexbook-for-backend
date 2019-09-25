@@ -7,6 +7,7 @@ describe('auth reducer', () => {
       wantToRead: [],
       books: {},
       yourBooksRating: {},
+      readedBooks: []
     });
   });
 
@@ -15,6 +16,7 @@ describe('auth reducer', () => {
       wantToRead: [1],
       books: {},
       yourBooksRating: {},
+      readedBooks: [],
     });
   });
 
@@ -35,13 +37,14 @@ describe('auth reducer', () => {
       actionTypes.rateBook({rating: 5}, "1")
     ))
     .toEqual({
-        wantToRead: [1],
+        wantToRead: [],
         books: {
           "1" : {title: "Sandman", author: "Neil Gaiman", id: 1, price: "5$", people: 1001, score: 5005, rating: 5, image: "" },
         },
         yourBooksRating: {
           "1": 5
         },
+        readedBooks: [1]
     });
   });
 });
