@@ -26,6 +26,16 @@ describe('auth reducer', () => {
     });
   });
 
+  it('Add book to readed', () => {
+    expect(reducer(undefined, actionTypes.addBookToReaded(1))).toEqual({
+      wantToRead: [],
+      books: {},
+      yourBooksRating: {},
+      readedBooks: [1],
+    });
+  });
+
+
   it('Rate books', () => {
     expect(reducer({
       wantToRead: [1],
