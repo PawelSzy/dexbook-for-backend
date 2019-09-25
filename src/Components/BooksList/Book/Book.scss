@@ -27,4 +27,24 @@ $react-rater-active: #fc6;
       font-size: 12px;
     }
   }
+  &__button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    &__form {
+      width: 16px;
+      height: 31px;
+      padding: 0 10px 3px 7px;
+      border-left: 1px solid;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+      border-bottom: 0;
+      border-top: 0px;
+      option {
+        background-color: #ffffff;
+        color: #000000;
+      }
+    }
+  }
 }

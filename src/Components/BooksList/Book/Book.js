@@ -1,6 +1,6 @@
 import React from 'react'
 import './Book.scss'
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actions from '../../../State/book';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +18,14 @@ const book = (props) => {
   const yourBookRating = props.id in props.booksRating ? props.booksRating[props.id] : 0
   const isBookReaded = props.readedBooks.includes(Number(props.id))
   const readedOrToReadText = isBookReaded ? "Readed" : "Want to read"
+
+  const bookSelectOption = (event, bookId) => {
+    const chosenOption = event.target.value
+    debugger
+    if( chosenOption === "Want to read") {
+      props.readLater(bookId)
+    }
+  }
 
   return (
     <div className="book row border-top">
@@ -50,9 +58,29 @@ const book = (props) => {
                   { readedOrToReadText }
                 </Button>
               :
-                <Button variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
+                <>
+                <Button className="book__button" variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
                   Want to read
                 </Button>
+                <Form className="d-inline">
+                  <Form.Group controlId="exampleForm.ControlSelect1" className="d-inline">
+                    <Form.Control
+                      className="btn-primary d-inline book__button__form"
+                      as="select"
+                      onChange={(e) => bookSelectOption(e, props.id)} >
+                      <option>
+                      </option>
+                      <option>
+                          Want to read
+                      </option>
+
+                      <option>
+                          Readed
+                      </option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+                </>
           }
         </div>
 
