@@ -46,6 +46,7 @@ export default (state = initialState, action = {}) => {
         ...state,
         libraries: [...state.libraries, ...action.libraries]
       }
+    default:
+      return state
   }
-  return state
 }

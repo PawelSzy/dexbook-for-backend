@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import BooksList from 'Components/BooksList/BookList';
-
 import GoogleMapsContainer from 'Components/GoogleMapsContainer/GoogleMapsContainer'
 import LeafletMaps from 'Components/LeafletMaps/LeafletMaps'
 

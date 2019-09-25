@@ -23,7 +23,7 @@ State> {
       ? this.props.markers.map(marker => {
       const position = [marker.lat, marker.lng]
       return (
-        <Marker position={position}>
+        <Marker position={position} key={marker.id.toString()} >
           <Popup>
             {marker.text}
           </Popup>

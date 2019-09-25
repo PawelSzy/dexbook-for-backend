@@ -3,9 +3,9 @@ import { Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  {link: "/to-read", title: "To Read"},
-  {link: "/your-books", title: "Your Books"},
-  {link: '/libraries', title: "Find libraries near you"},
+  {link: "/to-read", title: "To Read", id: 1},
+  {link: "/your-books", title: "Your Books", id: 2},
+  {link: '/libraries', title: "Find libraries near you", id: 3},
 ]
 
 const NavColumn = () => (
@@ -14,7 +14,7 @@ const NavColumn = () => (
      <ul className="list-unstyled">
        {
          links.map(link => (
-           <li>
+           <li key={link.id.toString()} >
              <NavLink className="navbar__link nav-link p-0 text-muted" to={link.link}>{link.title}</NavLink>
            </li>
         ))

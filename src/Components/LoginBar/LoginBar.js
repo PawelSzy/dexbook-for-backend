@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom'
 
 const loginBar = (props) => {
   let links = [
-    {link: "/login", title: "Login"},
-    {link: "/register", title: "Register"},
+    {link: "/login", title: "Login", id: "1" },
+    {link: "/register", title: "Register", id: "2" },
   ]
 
   if(props.isAuthenticated) {
-    links = [{link: "/logout", title: "Logout"}]
+    links = [{link: "/logout", title: "Logout", id: "3"}]
   }
 
   return (
@@ -18,7 +18,7 @@ const loginBar = (props) => {
         <ul className="list-unstyled d-flex flex-row text-left justify-content-end my-1">
        {
          links.map(link => (
-           <li>
+           <li key={link.id}>
              <NavLink className="navbar__link nav-link p-0 text-muted ml-2" to={link.link}>{link.title}</NavLink>
            </li>
          ))
