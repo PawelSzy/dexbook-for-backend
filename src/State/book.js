@@ -7,6 +7,7 @@ const RATE_BOOK = 'book/RATE_BOOK'
 const RESET_WANT_TO_READ = 'book/RESET_WANT_TO_READ'
 const LOAD_RATED_BOOKS_FROM_STORAGE = 'book/LOAD_RATED_BOOKS_FROM_STORAGE'
 const RESET_RATED_BOOKS = 'book/RESET_RATED_BOOKS'
+const ADD_BOOK_TO_READED = 'book/ADD_BOOK_TO_READED'
 
 // ACTION CREATOR - in this file it is a THUNK
 export const readLaterBook = (bookId) => {
@@ -15,6 +16,10 @@ export const readLaterBook = (bookId) => {
 
 export const removeReadLaterBook = (bookId) => {
   return { type: REMOVE_WANT_TO_READ, bookId }
+}
+
+export const addBookToReaded = (bookId) => {
+  return { type: ADD_BOOK_TO_READED, bookId }
 }
 
 export const rateBook = (rating, bookId) => {
@@ -146,6 +151,11 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         yourBooksRating: {...ratedBooks, ...state.yourBooksRating}
+      }
+    case ADD_BOOK_TO_READED:
+      return {
+        ...state,
+        readedBooks:  [...(new Set(state.readedBooks)).add(Number(action.bookId))],
       }
     case RATE_BOOK:
       let newBooksRating = {...state.yourBooksRating}

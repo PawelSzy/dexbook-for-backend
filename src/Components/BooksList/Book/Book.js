@@ -19,11 +19,16 @@ const book = (props) => {
   const isBookReaded = props.readedBooks.includes(Number(props.id))
   const readedOrToReadText = isBookReaded ? "Readed" : "Want to read"
 
+  const WANT_TO_READ = "Want to read"
+  const READED = "Readed"
+
   const bookSelectOption = (event, bookId) => {
     const chosenOption = event.target.value
-    debugger
-    if( chosenOption === "Want to read") {
+    if( chosenOption === WANT_TO_READ ) {
       props.readLater(bookId)
+    }
+    if (chosenOption == READED) {
+      props.addBookToReaded(bookId)
     }
   }
 
@@ -60,7 +65,7 @@ const book = (props) => {
               :
                 <>
                 <Button className="book__button" variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
-                  Want to read
+                  { WANT_TO_READ }
                 </Button>
                 <Form className="d-inline">
                   <Form.Group controlId="exampleForm.ControlSelect1" className="d-inline">
@@ -71,11 +76,11 @@ const book = (props) => {
                       <option>
                       </option>
                       <option>
-                          Want to read
+                          { WANT_TO_READ }
                       </option>
 
                       <option>
-                          Readed
+                          { READED }
                       </option>
                     </Form.Control>
                   </Form.Group>
@@ -106,6 +111,7 @@ const mapDispatchToProps = dispatch => {
     readLater: (bookId) => dispatch( actions.readLaterBook(bookId)),
     deleteFromReadLater: bookId => dispatch(actions.removeReadLaterBook(bookId)),
     rateBook: (rating, bookId) => dispatch(actions.rateBook(rating, bookId)),
+    addBookToReaded: (bookId) => dispatch(actions.addBookToReaded(bookId)),
   };
 };
 
