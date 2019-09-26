@@ -9,6 +9,8 @@ const LOAD_RATED_BOOKS_FROM_STORAGE = 'book/LOAD_RATED_BOOKS_FROM_STORAGE'
 const RESET_RATED_BOOKS = 'book/RESET_RATED_BOOKS'
 const ADD_BOOK_TO_READED = 'book/ADD_BOOK_TO_READED'
 const REMOVE_BOOK_FROM_READED = 'book/REMOVE_BOOK_FROM_READED'
+const GET_READED_BOOKS = 'book/GET_READED_BOOKS'
+const RESET_READED_BOOK = 'book/RESET_READED_BOOK'
 
 // ACTION CREATOR - in this file it is a THUNK
 export const readLaterBook = (bookId) => {
@@ -41,6 +43,14 @@ export const resetWantToReadBooks = () => {
 
 export const getRatedBooks = () => {
   return { type: LOAD_RATED_BOOKS_FROM_STORAGE }
+}
+
+export const getReadedBooks = () => {
+  return { type: GET_READED_BOOKS }
+}
+
+export const resetReadedBooks = () => {
+  return { type: RESET_READED_BOOK }
 }
 
 export const resetRatedBooks = () => {
@@ -84,7 +94,7 @@ const updateBookRatingRatedByYou = (book, rating, yourBooksRating) => {
 
 const addWantToReadBookToStorage = (bookId) => {
   const storageReadLaterBooks = localStorage.getItem('wantToRead') ? JSON.parse(localStorage.getItem('wantToRead')) : []
-  if (!(bookId in storageReadLaterBooks)) {
+  if (!(storageReadLaterBooks.includes(bookId))) {
     localStorage.setItem('wantToRead', JSON.stringify([...storageReadLaterBooks, ...[bookId]]));
   }
 }
@@ -110,8 +120,24 @@ const removeRatedBooksFromStorage = (bookId) => {
   localStorage.setItem('ratedBooks', JSON.stringify(storageRatedBooks));
 }
 
-const getRatedBooksFromStorage = () => {
+export const getRatedBooksFromStorage = () => {
   return localStorage.getItem('ratedBooks') ? JSON.parse(localStorage.getItem('ratedBooks')) : {}
+}
+
+const addReadedBookToStorage = bookId => {
+  const storagerReadedBooks = localStorage.getItem('readedBooks') ? JSON.parse(localStorage.getItem('readedBooks')) : []
+  if (!(storagerReadedBooks.includes(bookId))) {
+    localStorage.setItem('readedBooks', JSON.stringify([...storagerReadedBooks, ...[bookId]]));
+  }
+}
+
+const deleteReadedBookFromStorage = (bookId) => {
+  const storageReadedBooks = localStorage.getItem('readedBooks') ? JSON.parse(localStorage.getItem('readedBooks')) : []
+  localStorage.setItem('readedBooks', JSON.stringify(storageReadedBooks.filter(id => id !== bookId)))
+}
+
+const getReadedBooksFromStorage = () => {
+  return localStorage.getItem('readedBooks') ? JSON.parse(localStorage.getItem('readedBooks')).map(bookId => Number(bookId)) : []
 }
 
 //REDUCER
@@ -152,20 +178,28 @@ export default (state = initialState, action = {}) => {
         wantToRead: [...setWantToread]
       }
     case LOAD_RATED_BOOKS_FROM_STORAGE:
-      const ratedBooks = getRatedBooksFromStorage()
+      const yourBooksRating = getRatedBooksFromStorage()
       return {
         ...state,
-        yourBooksRating: {...ratedBooks, ...state.yourBooksRating}
+        yourBooksRating: {...yourBooksRating, ...state.yourBooksRating }
       }
     case ADD_BOOK_TO_READED:
+      addReadedBookToStorage(Number(action.bookId))
       return {
         ...state,
         readedBooks:  [...(new Set(state.readedBooks)).add(Number(action.bookId))],
       }
     case REMOVE_BOOK_FROM_READED:
+      deleteReadedBookFromStorage(action.bookId)
       return {
         ...state,
         readedBooks: state.readedBooks.filter(bookId => Number(bookId) !== Number(action.bookId))
+      }
+    case GET_READED_BOOKS:
+      const readedBooks = getReadedBooksFromStorage()
+      return {
+        ...state,
+        readedBooks: [...readedBooks, ...state.readedBooks ]
       }
     case RATE_BOOK:
       let newBooksRating = {...state.yourBooksRating}
@@ -180,6 +214,7 @@ export default (state = initialState, action = {}) => {
       } else {
         newBooks[action.bookId] = updateOverallBookRating(Object.assign({}, newBooks[action.bookId]), rating)
       }
+      addReadedBookToStorage(action.bookId)
       addRatedBooksToStorage(action.bookId, rating)
       removeReadLaterBookFromStorage(Number(action.bookId))
       return {
@@ -193,6 +228,11 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         yourBooksRating: {}
+      }
+    case RESET_READED_BOOK:
+      return {
+        ...state,
+        readedBooks: [],
       }
     default:
       return state

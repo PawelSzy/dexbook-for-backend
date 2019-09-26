@@ -33,8 +33,10 @@ export const authStart = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('expirationDate');
       localStorage.removeItem('userId');
+      dispatch(bookActions.resetReadedBooks())
       dispatch(bookActions.resetWantToReadBooks())
       dispatch(bookActions.resetRatedBooks())
+
       dispatch({type: AUTH_LOGOUT})
     }
   };
@@ -89,10 +91,12 @@ export const authStart = () => {
           dispatch(checkAuthTimeout(response.data.expiresIn));
           dispatch(bookActions.loadWantToReadBookFromStorage())
           dispatch(bookActions.getRatedBooks())
+          dispatch(bookActions.getReadedBooks())
 
         })
         .catch(err => {
-          dispatch(authFail(err.response.data.error));
+          console.error(err)
+          //dispatch(authFail(err.response.data.error));
         });
     };
   };
