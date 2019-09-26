@@ -30,6 +30,9 @@ $react-rater-active: #fc6;
   &__button {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    &.focus, &:focus {
+      box-shadow: none;
+    }
     &__form {
       width: 16px;
       height: 31px;
