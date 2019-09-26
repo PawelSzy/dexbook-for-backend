@@ -20,6 +20,7 @@ const book = (props) => {
   const WANT_TO_READ = "Want to read"
   const READED = "Readed"
   const readedOrToReadText = isBookReaded ? READED : WANT_TO_READ
+  const readedOrToReadClickFunction = isBookReaded ? () => props.removeBookFromReaded(props.id) : () => props.deleteFromReadLater(props.id)
 
   const bookSelectOption = (event, bookId) => {
     const chosenOption = event.target.value
@@ -57,7 +58,7 @@ const book = (props) => {
           {
             (isBookMarkedToRead || isBookReaded)
               ?
-                <Button variant="success" size="sm" onClick={() => props.deleteFromReadLater(props.id)}>
+                <Button variant="success" size="sm" onClick={readedOrToReadClickFunction}>
                   <FontAwesomeIcon icon={faCheck} className="mr-2" />
                   { readedOrToReadText }
                 </Button>
@@ -72,7 +73,7 @@ const book = (props) => {
                       className="btn-primary d-inline book__button__form"
                       as="select"
                       onChange={(e) => bookSelectOption(e, props.id)} >
-                      
+
                       <option>
                       </option>
 
@@ -109,10 +110,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    readLater: (bookId) => dispatch( actions.readLaterBook(bookId)),
+    readLater: bookId => dispatch( actions.readLaterBook(bookId)),
     deleteFromReadLater: bookId => dispatch(actions.removeReadLaterBook(bookId)),
     rateBook: (rating, bookId) => dispatch(actions.rateBook(rating, bookId)),
-    addBookToReaded: (bookId) => dispatch(actions.addBookToReaded(bookId)),
+    addBookToReaded: bookId => dispatch(actions.addBookToReaded(bookId)),
+    removeBookFromReaded: bookId => dispatch(actions.removeBookFromReaded(bookId)),
   };
 };
 
