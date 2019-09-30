@@ -29,8 +29,8 @@ class Book extends Component {
     return (
       <div className="Container">
       <div className="book col-md-10 border-top row">
-        <div className="row col-md-8">
-          <div className="col-md-4 pl-0 mt-1 mb-5">
+        <div className="row col-md-8 pr-0">
+          <div className="col-md-4 px-0 mt-1 mb-5">
             <img className="img-fluid" src={book.image} alt="book cover {book.title}" />
             </div>
 
@@ -45,7 +45,7 @@ class Book extends Component {
             </div>
             </div>
 
-          <div className="col-md-5 my-auto text-left pl-0 my-4">
+          <div className="col-md-5 my-auto text-md-left px-0 my-4">
             <div>
             {
             (!isBookMarkedToRead)
