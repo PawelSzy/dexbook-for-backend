@@ -1,0 +1,12 @@
+.leaflet-container {
+    height: 200px;
+    width: 80vw;
+    margin:20px auto;
+    @media (min-width: 992px) {
+        width: 800px;
+    }
+    @media (min-width: 540px) {
+        width: 540px;
+        height: 400px
+    }
+}

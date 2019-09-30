@@ -25,8 +25,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoginBar isAuthenticated={this.props.isAuthenticated} />
-        <NavMenu />
+        <div className="container-fluid">
+          <LoginBar isAuthenticated={this.props.isAuthenticated} />
+        </div>
+
+        <div className="container-fluid px-0">
+          <NavMenu />
+        </div>
+
         <Switch>
           <Route path="/register" exact component={Auth} />
           <Route path="/login" exact component={Auth} />

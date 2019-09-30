@@ -14,7 +14,7 @@ const loginBar = (props) => {
 
   return (
     <div className="row">
-      <Nav className="row nav d-flex flex-column text-left col-12">
+      <Nav className="row nav d-flex flex-column text-left col-12 pr-0">
         <ul className="list-unstyled d-flex flex-row text-left justify-content-end my-1">
        {
          links.map(link => (
