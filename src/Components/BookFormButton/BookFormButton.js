@@ -12,7 +12,7 @@ const bookFormButton = (props) => {
     if( chosenOption === WANT_TO_READ ) {
       props.readLater(bookId)
     }
-    if (chosenOption == READED) {
+    if (chosenOption === READED) {
       props.addBookToReaded(bookId)
     }
   }

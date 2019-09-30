@@ -19,7 +19,6 @@ State> {
 }
 
   render() {
-    console.log(this.props.startPosition)
     const markers = this.props.markers
       ? this.props.markers.map(marker => {
       const position = [marker.lat, marker.lng]

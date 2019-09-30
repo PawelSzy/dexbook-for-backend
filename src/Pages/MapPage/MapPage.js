@@ -15,7 +15,6 @@ class MapPage extends Component {
   componentDidMount() {
     this.props.loadLibraries();
     navigator.geolocation.getCurrentPosition(position => {
-      console.log("position: ", position)
       this.setState({
         userPosition: {
           lat: position.coords.latitude,
