@@ -9,6 +9,7 @@ import 'react-rater/lib/react-rater.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import NavColumn from 'Components/NavColumn/NavColumn'
+import BookFormButton from 'Components/BookFormButton/BookFormButton'
 
 library.add(faCheck)
 
@@ -26,6 +27,12 @@ class Book extends Component {
     const isBookMarkedToRead = this.props.wantToReadBooks.includes(Number(id))
     const yourBookRating = id in this.props.yourBooksRating ? this.props.yourBooksRating[id] : 0
     const book = this.props.books[id]
+    const isBookReaded = this.props.readedBooks.includes(Number(id))
+    const WANT_TO_READ = "Want to read"
+    const READED = "Readed"
+    const readedOrToReadText = isBookReaded ? READED : WANT_TO_READ
+    const readedOrToReadClickFunction = isBookReaded ? () => this.props.removeBookFromReaded(id) : () => this.props.deleteFromReadLater(id)
+
     return (
       <div className="Container">
       <div className="book col-md-10 border-top row">
@@ -48,17 +55,14 @@ class Book extends Component {
           <div className="col-md-5 my-auto text-md-left px-0 my-4">
             <div>
             {
-            (!isBookMarkedToRead)
-            ?
-            <Button variant="primary" size="sm" onClick={() => this.props.readLater(book.id)}>
-            Want to read
-            </Button>
-            :
-            <Button variant="success" size="sm" onClick={() => this.props.deleteFromReadLater(book.id)}>
-            <FontAwesomeIcon icon={faCheck} className="mr-2" />
-
-            Want to read
-            </Button>
+              (isBookMarkedToRead || isBookReaded)
+                ?
+                <Button variant="success" size="sm" onClick={() => readedOrToReadClickFunction(id)}>
+                  <FontAwesomeIcon icon={faCheck} className="mr-2" />
+              { readedOrToReadText }
+                </Button>
+                :
+                <BookFormButton id={id} />
             }
             </div>
 
@@ -82,6 +86,7 @@ const mapStateToProps = state => {
     yourBooksRating: state.book.yourBooksRating,
     wantToReadBooks: state.book.wantToRead,
     books: state.book.books,
+    readedBooks: state.book.readedBooks,
   }
 }
 
@@ -91,6 +96,8 @@ const mapDispatchToProps = dispatch => {
     readLater: (bookId) => dispatch( actions.readLaterBook(bookId)),
     deleteFromReadLater: bookId => dispatch(actions.removeReadLaterBook(bookId)),
     rateBook: (rating, bookId) => dispatch(actions.rateBook(rating, bookId)),
+    addBookToReaded: bookId => dispatch(actions.addBookToReaded(bookId)),
+    removeBookFromReaded: bookId => dispatch(actions.removeBookFromReaded(bookId)),
   }
 }
 

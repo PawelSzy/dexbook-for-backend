@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Rater from 'react-rater'
 import 'react-rater/lib/react-rater.css'
 import { NavLink } from 'react-router-dom';
+import BookFormButton from 'Components/BookFormButton/BookFormButton'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -21,16 +22,6 @@ const book = (props) => {
   const READED = "Readed"
   const readedOrToReadText = isBookReaded ? READED : WANT_TO_READ
   const readedOrToReadClickFunction = isBookReaded ? () => props.removeBookFromReaded(props.id) : () => props.deleteFromReadLater(props.id)
-
-  const bookSelectOption = (event, bookId) => {
-    const chosenOption = event.target.value
-    if( chosenOption === WANT_TO_READ ) {
-      props.readLater(bookId)
-    }
-    if (chosenOption == READED) {
-      props.addBookToReaded(bookId)
-    }
-  }
 
   return (
     <div className="book row border-top">
@@ -63,31 +54,7 @@ const book = (props) => {
                   { readedOrToReadText }
                 </Button>
               :
-                <>
-                <Button className="book__button" variant="primary" size="sm" onClick={() => props.readLater(props.id)}>
-                  { WANT_TO_READ }
-                </Button>
-                <Form className="d-inline">
-                  <Form.Group controlId="exampleForm.ControlSelect1" className="d-inline">
-                    <Form.Control
-                      className="btn-primary d-inline book__button__form"
-                      as="select"
-                      onChange={(e) => bookSelectOption(e, props.id)} >
-
-                      <option>
-                      </option>
-
-                      <option>
-                          { WANT_TO_READ }
-                      </option>
-
-                      <option>
-                          { READED }
-                      </option>
-                    </Form.Control>
-                  </Form.Group>
-                </Form>
-                </>
+              <BookFormButton id={props.id} />
           }
         </div>
 
