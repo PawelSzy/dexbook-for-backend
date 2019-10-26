@@ -1,11 +1,14 @@
 import { updateObject } from 'shared/utility';
 import * as bookActions from './book'
+import axios from 'axios';
+import API from 'shared/api'
 
 export const AUTH_START = 'auth/AUTH_START';
 export const AUTH_SUCCESS = 'auth/AUTH_SUCCESS';
 export const AUTH_FAIL = 'auth/AUTH_FAIL';
 export const AUTH_LOGOUT = 'auth/AUTH_LOGOUT';
 export const SET_AUTH_REDIRECT_PATH = 'auth/SET_AUTH_REDIRECT_PATH';
+export const GET_JWT_TOKEN = 'auth/GET_JWT_TOKEN';
 
 export const authStart = () => {
     return {
@@ -50,53 +53,64 @@ export const authStart = () => {
   };
 
   const checkLogin = (authData, isSignup) => {
-    let url = '';
+    debugger;
+    let url = '/users?DEBUG_SESSION_START=PHPSTORM';
     if (!isSignup) {
       url = ''
     }
-
-    return new Promise((resolve, reject) => {
-      resolve(
-        { data : {
-            expiresIn: 60*60,
-            idToken: '1234',
-            localId: 'xyzABC',
-          }
-        }
-      );
-      //return axios.post(url, authData)
-    });
+    return API.post(url, authData);
   }
 
-  export const auth = (email, password, isSignup) => {
+  export const getToken = (id, username, email, password) => {
     return dispatch => {
-      dispatch(authStart());
-      const authData = {
+      const tokenData = {
+        username: username,
         email: email,
         password: password,
         returnSecureToken: true
+      };
+      const url = "http://127.0.0.1:8000/authentication_token";
+      axios.post(url, tokenData)
+        .then(response => response.data)
+        .then(data => {
+          const expirationDate = new Date(new Date().getTime() + 60*60*1000);
+          //const expirationDate = 60*60;
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('expirationDate', expirationDate);
+          dispatch(authSuccess(data.Token, id));
+          dispatch(checkAuthTimeout(expirationDate));
+        })
+    }
+  }
+
+  export const auth = (username, email, password, isSignup) => {
+    return dispatch => {
+      dispatch(authStart());
+      const authData = {
+        username: username,
+        email: email,
+        password: password,
       };
       let url = '';
       if (!isSignup) {
         url = '';
       }
-      //axios.post(url, authData)
       checkLogin(authData, isSignup)
         .then(response => {
-          const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
-          localStorage.setItem('token', response.data.idToken);
-          localStorage.setItem('expirationDate', expirationDate);
-          localStorage.setItem('userId', response.data.localId);
-          dispatch(authSuccess(response.data.idToken, response.data.localId));
-          dispatch(checkAuthTimeout(response.data.expiresIn));
-          dispatch(bookActions.loadWantToReadBookFromStorage())
-          dispatch(bookActions.getRatedBooks())
-          dispatch(bookActions.getReadedBooks())
+          const id = response.data.id;
+          const email = response.data.email;
+          const username = response.data.username;
 
+          localStorage.setItem('userId', id);
+          dispatch(getToken(id, username, email, password));
+          dispatch(bookActions.loadWantToReadBookFromStorage());
+          dispatch(bookActions.getRatedBooks());
+          dispatch(bookActions.getReadedBooks());
         })
         .catch(err => {
-          console.error(err)
-          //dispatch(authFail(err.response.data.error));
+          debugger;
+          console.error(err);
+          dispatch(authFail(err.response.data.error));
         });
     };
   };

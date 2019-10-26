@@ -12,6 +12,19 @@ import { updateObject, checkValidity } from 'shared/utility';
 class Auth extends Component {
   state = {
     controls: {
+      username: {
+        elementType: 'input',
+        elementConfig: {
+          type: 'input',
+          placeholder: 'username'
+        },
+        value: '',
+        validation: {
+          required: true,
+        },
+        valid: false,
+        touched: false
+      },
       email: {
         elementType: 'input',
         elementConfig: {
@@ -63,7 +76,12 @@ class Auth extends Component {
 
   submitHandler = ( event ) => {
     event.preventDefault();
-    this.props.onAuth( this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup );
+    this.props.onAuth(
+      this.state.controls.username.value,
+      this.state.controls.email.value,
+      this.state.controls.password.value,
+      this.state.isSignup
+    );
   }
 
   switchAuthModeHandler = () => {
@@ -134,7 +152,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: ( email, password, isSignup ) => dispatch( actions.auth( email, password, isSignup ) ),
+    onAuth: (username, email, password, isSignup ) => dispatch( actions.auth(username, email, password, isSignup ) ),
     onSetAuthRedirectPath: () => dispatch( actions.setAuthRedirectPath( '/' ) )
   };
 };
