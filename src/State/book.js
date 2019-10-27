@@ -48,8 +48,13 @@ export const getRatedBooks = () => {
   return { type: LOAD_RATED_BOOKS_FROM_STORAGE }
 }
 
-export const getReadedBooks = () => {
-  return { type: GET_READED_BOOKS }
+export const getReadedBooks = (id) => dispatch => {
+  API.get(`users/${id}/readeds.jsonld`)
+    .then(response => response.data)
+    .then(data => {
+      const readedBooks = data["hydra:member"].map(book => book.id);
+      dispatch({ type: GET_READED_BOOKS, readedBooks });
+    })
 }
 
 export const resetReadedBooks = () => {
@@ -70,7 +75,6 @@ export const loadBooks = () => dispatch => {
       return [];
     })
     .then(books => books.map(book => {
-      console.log(book);
       if(typeof book.image != 'undefined') {
         // @TODO fix it in php side
         book.image = book.image.replace(/=>/g, ':').replace(/'/g, "").replace(/'/g, "");
@@ -217,7 +221,7 @@ export default (state = initialState, action = {}) => {
         readedBooks: state.readedBooks.filter(bookId => Number(bookId) !== Number(action.bookId))
       }
     case GET_READED_BOOKS:
-      const readedBooks = getReadedBooksFromStorage()
+      const readedBooks = action.readedBooks
       return {
         ...state,
         readedBooks: [...readedBooks, ...state.readedBooks ]

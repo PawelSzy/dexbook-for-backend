@@ -91,7 +91,7 @@ export const authStart = () => {
       dispatch(checkAuthTimeout(expirationDate));
       dispatch(bookActions.loadWantToReadBookFromStorage());
       dispatch(bookActions.getRatedBooks());
-      dispatch(bookActions.getReadedBooks());
+      dispatch(bookActions.getReadedBooks(id));
     }
   }
 
