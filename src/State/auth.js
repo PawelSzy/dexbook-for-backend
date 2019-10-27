@@ -52,16 +52,12 @@ export const authStart = () => {
     };
   };
 
-  const checkLogin = (authData, isSignup) => {
-    debugger;
+  const createUser = (authData) => {
     let url = '/users?DEBUG_SESSION_START=PHPSTORM';
-    if (!isSignup) {
-      url = ''
-    }
     return API.post(url, authData);
   }
 
-  export const getToken = (id, username, email, password) => {
+  export const getTokenAndLogin = (username, email, password, id = null) => {
     return dispatch => {
       const tokenData = {
         username: username,
@@ -73,13 +69,44 @@ export const authStart = () => {
       axios.post(url, tokenData)
         .then(response => response.data)
         .then(data => {
+          const token = data.token;
           const expirationDate = new Date(new Date().getTime() + 60*60*1000);
           //const expirationDate = 60*60;
           localStorage.setItem('token', data.token);
           localStorage.setItem('expirationDate', expirationDate);
-          dispatch(authSuccess(data.Token, id));
-          dispatch(checkAuthTimeout(expirationDate));
+          if (id) {
+            dispatch(login(id, token, expirationDate))
+          }
+          else {
+            dispatch(getUserIdAndLogin(username, email, token, expirationDate));
+          }
         })
+    }
+  }
+
+  export const login = (id, token, expirationDate) => {
+    return dispatch => {
+      localStorage.setItem('userId', id);
+      dispatch(authSuccess(token, id));
+      dispatch(checkAuthTimeout(expirationDate));
+      dispatch(bookActions.loadWantToReadBookFromStorage());
+      dispatch(bookActions.getRatedBooks());
+      dispatch(bookActions.getReadedBooks());
+    }
+  }
+
+  export const getUserIdAndLogin = (username, email, token, expirationDate) => {
+    return dispatch => {
+      API.get(`http://127.0.0.1:8000/api/users?username=${username}&email=${email}`)
+        .then(resposne => resposne.data)
+        .then(data => {
+          const id = data['hydra:member'][0].id ? data['hydra:member'][0].id : null;
+          dispatch(login(id, token, expirationDate))
+        })
+        .catch(err => {
+          console.error(err);
+          dispatch(authFail(err.response.data.error));
+        });
     }
   }
 
@@ -91,27 +118,23 @@ export const authStart = () => {
         email: email,
         password: password,
       };
-      let url = '';
       if (!isSignup) {
-        url = '';
+        dispatch(getTokenAndLogin(username, email, password));
       }
-      checkLogin(authData, isSignup)
-        .then(response => {
-          const id = response.data.id;
-          const email = response.data.email;
-          const username = response.data.username;
+      else {
+        createUser(authData)
+          .then(response => {
+            const id = response.data.id;
+            const email = response.data.email;
+            const username = response.data.username;
+            dispatch(getTokenAndLogin(username, email, password, id));
 
-          localStorage.setItem('userId', id);
-          dispatch(getToken(id, username, email, password));
-          dispatch(bookActions.loadWantToReadBookFromStorage());
-          dispatch(bookActions.getRatedBooks());
-          dispatch(bookActions.getReadedBooks());
-        })
-        .catch(err => {
-          debugger;
-          console.error(err);
-          dispatch(authFail(err.response.data.error));
-        });
+          })
+          .catch(err => {
+            console.error(err);
+            dispatch(authFail(err.response.data.error));
+          });
+      }
     };
   };
 

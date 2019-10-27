@@ -34,8 +34,12 @@ class App extends Component {
         </div>
 
         <Switch>
-          <Route path="/register" exact component={Auth} />
-          <Route path="/login" exact component={Auth} />
+          <Route
+            path="/register"
+            exact
+            render={(props) => <Auth {...props} isSignup={true} />}
+          />
+          <Route path="/login" exact component={Auth}  />
           <Route path="/logout" exact component={Logout} />
           <Route path="/to-read" exact component={ToReadBooksList} />
           <Route path="/your-books" exact component={YourBookList} />

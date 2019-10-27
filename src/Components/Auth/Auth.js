@@ -80,7 +80,7 @@ class Auth extends Component {
       this.state.controls.username.value,
       this.state.controls.email.value,
       this.state.controls.password.value,
-      this.state.isSignup
+      this.props.isSignup
     );
   }
 
