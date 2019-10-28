@@ -24,8 +24,35 @@ export const removeReadLaterBook = (bookId) => {
   return { type: REMOVE_WANT_TO_READ, bookId }
 }
 
-export const addBookToReaded = (bookId) => {
-  return { type: ADD_BOOK_TO_READED, bookId }
+export const addBookToReaded = (bookId) => dispatch => {
+    const id = localStorage.getItem('userId');
+    if (id) {
+      API.get(`books/${bookId}`)
+        .then(response => response.data)
+        .then(book => {
+          const urlApi = `/api/users/${id}`;
+          const filtered = book.usersWhoReaded.filter(readed => readed['@id'] == urlApi);
+          if (filtered.length > 0) {
+            dispatch({ type: ADD_BOOK_TO_READED, bookId })
+          }
+          else {
+            const usersWhoReaded = book.usersWhoReaded.map(user => user["@id"]);
+            usersWhoReaded.push(urlApi);
+            const changedBook = {
+              "usersWhoReaded": usersWhoReaded,
+            }
+            API.patch(`books/${bookId}`,  changedBook, {
+              headers: {
+                "Content-type": "application/merge-patch+json",
+              }
+            })
+            .then(response => dispatch({ type: ADD_BOOK_TO_READED, bookId }))
+            .catch(error => console.error(error));
+          }
+        })
+        .catch(error => console.error(error));
+    }
+    dispatch({ type: ADD_BOOK_TO_READED, bookId })
 }
 
 export const removeBookFromReaded = (bookId) => {
@@ -52,9 +79,19 @@ export const getReadedBooks = (id) => dispatch => {
   API.get(`users/${id}/readeds.jsonld`)
     .then(response => response.data)
     .then(data => {
+      console.log(data);
       const readedBooks = data["hydra:member"].map(book => book.id);
       dispatch({ type: GET_READED_BOOKS, readedBooks });
     })
+    .catch(
+      error => {
+        console.log(error);
+        dispatch({
+          type: FAILED_BOOK_LOAD,
+          error: error.message
+        })
+    }
+  );
 }
 
 export const resetReadedBooks = () => {
