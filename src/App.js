@@ -39,7 +39,11 @@ class App extends Component {
             exact
             render={(props) => <Auth {...props} isSignup={true} />}
           />
-          <Route path="/login" exact component={Auth}  />
+          <Route
+            path="/login"
+            exact
+            render={(props) => <Auth {...props} isSignup={false} />}
+          />
           <Route path="/logout" exact component={Logout} />
           <Route path="/to-read" exact component={ToReadBooksList} />
           <Route path="/your-books" exact component={YourBookList} />

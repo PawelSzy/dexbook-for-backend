@@ -81,6 +81,10 @@ export const authStart = () => {
             dispatch(getUserIdAndLogin(username, email, token, expirationDate));
           }
         })
+        .catch(err => {
+          console.error(err);
+          dispatch(authFail(err.response.data.error));
+        });
     }
   }
 
