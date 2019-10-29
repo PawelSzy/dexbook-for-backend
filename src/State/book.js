@@ -55,8 +55,27 @@ export const addBookToReaded = (bookId) => dispatch => {
     dispatch({ type: ADD_BOOK_TO_READED, bookId })
 }
 
-export const removeBookFromReaded = (bookId) => {
-  return { type: REMOVE_BOOK_FROM_READED, bookId }
+export const removeBookFromReaded = (bookId) => dispatch => {
+  const id = localStorage.getItem('userId');
+  API.get(`books/${bookId}`)
+    .then(response => response.data)
+    .then(book => {
+      const urlApi = `/api/users/${id}`;
+      const filtered = book.usersWhoReaded.filter(readed => readed['@id'] !== urlApi);
+      const newusersWhoReaded = filtered.map(user => user["@id"]);
+
+      const changedBook = {
+        "usersWhoReaded": newusersWhoReaded,
+      }
+      API.patch(`books/${bookId}`,  changedBook, {
+        headers: {
+          "Content-type": "application/merge-patch+json",
+        }
+      })
+        .then(response => dispatch({ type: REMOVE_BOOK_FROM_READED, bookId }))
+        .catch(error => console.error(error));
+    })
+    .catch(error => console.error(error));
 }
 
 export const rateBook = (rating, bookId) => {
