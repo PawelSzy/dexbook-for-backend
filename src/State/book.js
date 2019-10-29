@@ -3,7 +3,7 @@ import API from 'shared/api'
 // ACTION TYPES (there may be more than one)
 const LOAD_BOOKS = 'book/LOAD_BOOKS'
 const WANT_TO_READ = 'book/WANT_TO_READ'
-const LOAD_WANT_TO_READ_BOOKS_STORAGE = 'book/LOAD_WANT_TO_READ_BOOKS_STORAGE'
+const LOAD_WANT_TO_READ_BOOKS = 'book/LOAD_WANT_TO_READ_BOOKS'
 const REMOVE_WANT_TO_READ = 'book/REMOVE_WANT_TO_READ'
 const RATE_BOOK = 'book/RATE_BOOK'
 const RESET_WANT_TO_READ = 'book/RESET_WANT_TO_READ'
@@ -52,6 +52,7 @@ export const addBookToReaded = (bookId) => dispatch => {
         })
         .catch(error => console.error(error));
     }
+
     dispatch({ type: ADD_BOOK_TO_READED, bookId })
 }
 
@@ -82,15 +83,34 @@ export const rateBook = (rating, bookId) => {
   return { type: RATE_BOOK, bookId, rating }
 }
 
-export const loadWantToReadBookFromStorage = () => {
-  return { type: LOAD_WANT_TO_READ_BOOKS_STORAGE }
+export const loadWantToReadBook = (id) => dispatch => {
+  API.get(`users/${id}/to_reads.jsonld`)
+    .then(response => response.data)
+    .then(data => {
+      console.log(data)
+      debugger;
+      const toReadBooks = data["hydra:member"].map(book => book.id);
+      dispatch({ type: LOAD_WANT_TO_READ_BOOKS, toReadBooks });
+    })
+    .catch(
+      error => {
+      console.log(error);
+      dispatch({
+        type: FAILED_BOOK_LOAD,
+        error: error.message
+      })
+    });
+
+   //dispatch({ type: LOAD_WANT_TO_READ_BOOKS })
 }
 
 export const resetWantToReadBooks = () => {
   return { type: RESET_WANT_TO_READ }
 }
 
-export const getRatedBooks = () => {
+export const getRatedBooks = (id) => {
+
+
   return { type: LOAD_RATED_BOOKS_FROM_STORAGE }
 }
 
@@ -98,7 +118,6 @@ export const getReadedBooks = (id) => dispatch => {
   API.get(`users/${id}/readeds.jsonld`)
     .then(response => response.data)
     .then(data => {
-      console.log(data);
       const readedBooks = data["hydra:member"].map(book => book.id);
       dispatch({ type: GET_READED_BOOKS, readedBooks });
     })
@@ -109,8 +128,7 @@ export const getReadedBooks = (id) => dispatch => {
           type: FAILED_BOOK_LOAD,
           error: error.message
         })
-    }
-  );
+    });
 }
 
 export const resetReadedBooks = () => {
@@ -250,10 +268,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         books: {...state.books, ...action.books}
       }
-    case LOAD_WANT_TO_READ_BOOKS_STORAGE:
-      const readLater = getReadLaterBooksFromStorage().map(number => Number(number))
+    case LOAD_WANT_TO_READ_BOOKS:
+      //const readLater = getReadLaterBooksFromStorage().map(number => Number(number))
       const toRead = state.wantToRead ? state.wantToRead : []
-      let setWantToread = new Set( [ ...toRead, ...readLater])
+      debugger;
+      let setWantToread = new Set( [ ...toRead, ...action.toReadBooks])
       return {
         ...state,
         wantToRead: [...setWantToread]
@@ -265,13 +284,13 @@ export default (state = initialState, action = {}) => {
         yourBooksRating: {...yourBooksRating, ...state.yourBooksRating }
       }
     case ADD_BOOK_TO_READED:
-      addReadedBookToStorage(Number(action.bookId))
+      //addReadedBookToStorage(Number(action.bookId))
       return {
         ...state,
         readedBooks:  [...(new Set(state.readedBooks)).add(Number(action.bookId))],
       }
     case REMOVE_BOOK_FROM_READED:
-      deleteReadedBookFromStorage(action.bookId)
+      //deleteReadedBookFromStorage(action.bookId)
       return {
         ...state,
         readedBooks: state.readedBooks.filter(bookId => Number(bookId) !== Number(action.bookId))

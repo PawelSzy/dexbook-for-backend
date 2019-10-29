@@ -94,8 +94,8 @@ export const authStart = () => {
       localStorage.setItem('userId', id);
       dispatch(authSuccess(token, id));
       dispatch(checkAuthTimeout(expirationDate));
-      dispatch(bookActions.loadWantToReadBookFromStorage());
-      dispatch(bookActions.getRatedBooks());
+      dispatch(bookActions.loadWantToReadBook(id));
+      dispatch(bookActions.getRatedBooks(id));
       dispatch(bookActions.getReadedBooks(id));
     }
   }
