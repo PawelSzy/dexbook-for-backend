@@ -46,9 +46,10 @@ export const authStart = () => {
 
   export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
+      var time = expirationTime.getTime() - (new Date()).getTime();
       setTimeout(() => {
         dispatch(logout());
-    }, expirationTime * 1000);
+    }, time);
     };
   };
 
@@ -95,8 +96,7 @@ export const authStart = () => {
       dispatch(checkAuthTimeout(expirationDate));
       dispatch(bookActions.loadWantToReadBookFromStorage());
       dispatch(bookActions.getRatedBooks());
-      // @TODO fix bug
-      //dispatch(bookActions.getReadedBooks(id));
+      dispatch(bookActions.getReadedBooks(id));
     }
   }
 
@@ -162,7 +162,7 @@ export const authCheckState = () => {
       } else {
         const userId = localStorage.getItem('userId');
         dispatch(authSuccess(token, userId));
-        dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
+        dispatch(checkAuthTimeout(expirationDate));
       }
     }
   };
