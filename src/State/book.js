@@ -16,12 +16,59 @@ const RESET_READED_BOOK = 'book/RESET_READED_BOOK'
 const FAILED_BOOK_LOAD = 'book/FAILED_BOOK_LOAD'
 
 // ACTION CREATOR - in this file it is a THUNK
-export const readLaterBook = (bookId) => {
-  return { type: WANT_TO_READ, bookId }
+export const readLaterBook = (bookId) => dispatch =>{
+  const id = localStorage.getItem('userId');
+  if (id) {
+    API.get(`books/${bookId}`)
+      .then(response => response.data)
+      .then(book => {
+        const urlApi = `/api/users/${id}`;
+        const filtered = book.userWantsToRead.filter(readed => readed['@id'] == urlApi);
+        if (filtered.length > 0) {
+          dispatch({ type: ADD_BOOK_TO_READED, bookId })
+        }
+        else {
+          const userWantsToRead = book.userWantsToRead.map(user => user["@id"]);
+          userWantsToRead.push(urlApi);
+          const changedBook = {
+            "userWantsToRead": userWantsToRead,
+          }
+          API.patch(`books/${bookId}`,  changedBook, {
+            headers: {
+              "Content-type": "application/merge-patch+json",
+            }
+          })
+            .then(response => dispatch({ type: WANT_TO_READ, bookId }))
+            .catch(error => console.error(error));
+        }
+      })
+      .catch(error => console.error(error));
+  }
 }
 
-export const removeReadLaterBook = (bookId) => {
-  return { type: REMOVE_WANT_TO_READ, bookId }
+export const removeReadLaterBook = (bookId) => dispatch => {
+  const id = localStorage.getItem('userId');
+  API.get(`books/${bookId}`)
+    .then(response => response.data)
+    .then(book => {
+      const urlApi = `/api/users/${id}`;
+      const filtered = book.userWantsToRead.filter(readed => readed['@id'] !== urlApi);
+      const newuserWantsToRead = filtered.map(user => user["@id"]);
+
+      const changedBook = {
+        "userWantsToRead": newuserWantsToRead,
+      }
+      API.patch(`books/${bookId}`,  changedBook, {
+        headers: {
+          "Content-type": "application/merge-patch+json",
+        }
+      })
+        .then(response => dispatch({ type: REMOVE_WANT_TO_READ, bookId }))
+        .catch(error => console.error(error));
+    })
+    .catch(error => console.error(error));
+
+   dispatch({ type: REMOVE_WANT_TO_READ, bookId });
 }
 
 export const addBookToReaded = (bookId) => dispatch => {
@@ -52,7 +99,6 @@ export const addBookToReaded = (bookId) => dispatch => {
         })
         .catch(error => console.error(error));
     }
-
     dispatch({ type: ADD_BOOK_TO_READED, bookId })
 }
 
@@ -88,7 +134,6 @@ export const loadWantToReadBook = (id) => dispatch => {
     .then(response => response.data)
     .then(data => {
       console.log(data)
-      debugger;
       const toReadBooks = data["hydra:member"].map(book => book.id);
       dispatch({ type: LOAD_WANT_TO_READ_BOOKS, toReadBooks });
     })
@@ -247,13 +292,13 @@ export default (state = initialState, action = {}) => {
       if (state.wantToRead.includes(Number(action.bookId))) {
         return state;
       }
-      addWantToReadBookToStorage(action.bookId)
+      //addWantToReadBookToStorage(action.bookId)
       return {
         ...state,
       wantToRead: state.wantToRead.concat( [Number(action.bookId)] )
       }
     case REMOVE_WANT_TO_READ:
-      removeReadLaterBookFromStorage(action.bookId)
+      //removeReadLaterBookFromStorage(action.bookId)
       return {
         ...state,
         wantToRead: state.wantToRead.filter(bookId => Number(bookId) !== Number(action.bookId))
@@ -271,7 +316,6 @@ export default (state = initialState, action = {}) => {
     case LOAD_WANT_TO_READ_BOOKS:
       //const readLater = getReadLaterBooksFromStorage().map(number => Number(number))
       const toRead = state.wantToRead ? state.wantToRead : []
-      debugger;
       let setWantToread = new Set( [ ...toRead, ...action.toReadBooks])
       return {
         ...state,
